@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test YouTube Subscribe Button</title>
+    <title>Test YouTube Subscribe Button1111</title>
 </head>
 <body>
     <h1>Test YouTube Subscribe Button</h1>
@@ -13,5 +13,19 @@
 
     <!-- Подключение YouTube API для кнопки подписки -->
     <script src="https://apis.google.com/js/platform.js"></script>
+
+    <script>
+        window.onYouTubeIframeAPIReady = function() {
+            console.log("YouTube IFrame API is ready.");
+        };
+
+        window.onload = function() {
+            if (typeof gapi !== 'undefined') {
+                console.log('gapi loaded');
+            } else {
+                console.error('gapi not loaded');
+            }
+        };
+    </script>
 </body>
 </html>
