@@ -6,40 +6,18 @@
     <title>Live Stream of Magda and Her Kittens</title>
 </head>
 <body>
-    <h1>Watch our live stream of Magda and her kittens111</h1>
+    <h1>Watch our live stream of Magda and her kittens</h1>
     <div id="youtube-live-stream">
         <p>Loading live stream...</p>
     </div>
     <div id="subscribe-button">
-        <div>
-            <img id="channel-avatar" src="" alt="Channel Avatar" style="width: 50px; height: 50px;">
-            <div class="g-ytsubscribe" data-channelid="UCSGaVOFPx7u4p8_2NHhB-OQ" data-layout="full" data-count="default"></div>
-        </div>
+        <div class="g-ytsubscribe" data-channelid="UCSGaVOFPx7u4p8_2NHhB-OQ" data-layout="full" data-count="default"></div>
         <p>If the button is inactive, please <a href="https://www.youtube.com/channel/UCSGaVOFPx7u4p8_2NHhB-OQ" target="_blank">visit our channel</a> to subscribe.</p>
     </div>
 
     <script>
         const API_KEY = 'AIzaSyBrlblaZLU3O7UskhlvclJAeY2DfzAdq5c';
         const CHANNEL_ID = 'UCSGaVOFPx7u4p8_2NHhB-OQ';
-
-        async function fetchChannelInfo() {
-            const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${CHANNEL_ID}&key=${API_KEY}`;
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (data.items && data.items.length > 0) {
-                return data.items[0].snippet.thumbnails.default.url;
-            } else {
-                return null;
-            }
-        }
-
-        async function loadChannelAvatar() {
-            const avatarUrl = await fetchChannelInfo();
-            if (avatarUrl) {
-                document.getElementById('channel-avatar').src = avatarUrl;
-            }
-        }
 
         async function fetchLiveVideoId() {
             const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`;
@@ -63,7 +41,6 @@
             }
         }
 
-        loadChannelAvatar();
         loadLiveStream();
     </script>
 
