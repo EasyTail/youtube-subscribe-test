@@ -3,29 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test YouTube Subscribe Button1111</title>
+    <title>Live Stream of Magda and Her Kittens</title>
 </head>
 <body>
-    <h1>Test YouTube Subscribe Button</h1>
-    <div id="subscribe-button">
-        <div class="g-ytsubscribe" data-channelid="UCSGaVOFPx7u4p8_2NHhB-OQ" data-layout="full" data-count="default"></div>
+    <h1>Watch our live stream of Magda and her kittens111</h1>
+    <div id="youtube-live-stream">
+        <p>Loading live stream...</p>
     </div>
+    <div id="subscribe-button">
+        <div>
+            <img id="channel-avatar" src="" alt="Channel Avatar" style="width: 50px; height: 50px;">
+            <div class="g-ytsubscribe" data-channelid="UCSGaVOFPx7u4p8_2NHhB-OQ" data-layout="full" data-count="default"></div>
+        </div>
+        <p>If the button is inactive, please <a href="https://www.youtube.com/channel/UCSGaVOFPx7u4p8_2NHhB-OQ" target="_blank">visit our channel</a> to subscribe.</p>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyBrlblaZLU3O7UskhlvclJAeY2DfzAdq5c';
+        const CHANNEL_ID = 'UCSGaVOFPx7u4p8_2NHhB-OQ';
+
+        async function fetchChannelInfo() {
+            const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${CHANNEL_ID}&key=${API_KEY}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.items && data.items.length > 0) {
+                return data.items[0].snippet.thumbnails.default.url;
+            } else {
+                return null;
+            }
+        }
+
+        async function loadChannelAvatar() {
+            const avatarUrl = await fetchChannelInfo();
+            if (avatarUrl) {
+                document.getElementById('channel-avatar').src = avatarUrl;
+            }
+        }
+
+        async function fetchLiveVideoId() {
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&eventType=live&key=${API_KEY}`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.items && data.items.length > 0) {
+                return data.items[0].id.videoId;
+            } else {
+                return null;
+            }
+        }
+
+        async function loadLiveStream() {
+            const videoId = await fetchLiveVideoId();
+            if (videoId) {
+                const iframe = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                document.getElementById('youtube-live-stream').innerHTML = iframe;
+            } else {
+                document.getElementById('youtube-live-stream').innerHTML = '<p>No live stream currently available. Please check back later.</p>';
+            }
+        }
+
+        loadChannelAvatar();
+        loadLiveStream();
+    </script>
 
     <!-- Подключение YouTube API для кнопки подписки -->
     <script src="https://apis.google.com/js/platform.js"></script>
-
-    <script>
-        window.onYouTubeIframeAPIReady = function() {
-            console.log("YouTube IFrame API is ready.");
-        };
-
-        window.onload = function() {
-            if (typeof gapi !== 'undefined') {
-                console.log('gapi loaded');
-            } else {
-                console.error('gapi not loaded');
-            }
-        };
-    </script>
 </body>
 </html>
